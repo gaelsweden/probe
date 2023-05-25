@@ -173,6 +173,9 @@ void _AppLoRaTask(void*pV){
                     for(k=0; k<APP_LORA_REQUEST_ADDRESS; k++){          
                         if(atoi(data) == k){                            /* if data is a number                                  */
                             strcpy(add, add1);                          /* adding '0x' in a variable                            */
+                            if(atoi(data)<10){
+                                strcat(add, "0");
+                            }
                             strcat(add, data);                          /* compiling '0x' and 'data' to save address            */
                             printf("Address saved: %s\n", add);
                             m++;
