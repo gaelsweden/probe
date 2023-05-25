@@ -105,8 +105,7 @@ void _AppLoRaTask(void*pV){
 
     ESP_LOGI(TAG, "----------- ENTERING _AppLoRaTask() ------------");
 
-    for(uint32_t cpt=0;;){  /******** freeRTOS task perpetual loop **************************************************************/
-        
+    for(uint32_t cpt=0;;){  /******** freeRTOS task perpetual loop **************************************************************/       
         vTaskDelay(50 / portTICK_PERIOD_MS);    /* the task takes place every 50 ms i.e. task sleeps most of the time           */
         lCurrentTime = (unsigned long)(esp_timer_get_time() / 1000ULL); /* get the current kernel time in milliseconds          */
         lElapsedTime =  lCurrentTime - lBaseTime;                  /* processing the elapsed time since the last task execution */
@@ -116,16 +115,11 @@ void _AppLoRaTask(void*pV){
             lBaseTime = lCurrentTime;                   /* updating the current time (for the next task execution)              */
             if(LoRaBeginPacket(FALSE)==0){              /* if LoRa module is enabled to process a new Tx packect...             */
                 _AppLoRaSetTxMode();                    /* signaling the App Tx status and setting LoRa module for Tx action    */
-        
 
-
-                msg = "15";
-                sprintf(buf, "%s", msg);      /* building the message string to send over LoRa radio              */
-        //        sprintf(buf, "%s[%012d]", msg, cpt++);      /* building the message string to send over LoRa radio              */
-
-
-
-                LoRaWriteByte(APP_LORA_REMOTE_ADDRESS);      /* write the module destination address to LoRa Tx FIFO            */
+                msg = "15";                                 /* testing */
+                sprintf(buf, "%s", msg);                    /* building the message string to send over LoRa radio              */
+        //      sprintf(buf, "%s[%012d]", msg, cpt++);      /* building the message string to send over LoRa radio              */
+                LoRaWriteByte(APP_LORA_REMOTE_ADDRESS);     /* write the module destination address to LoRa Tx FIFO             */
                 LoRaWriteByte(APP_LORA_HOST_ADDRESS);       /* write the module source address to LoRa Tx FIFO                  */
                 LoRaWriteByte(msgLen=(uint8_t)strnlen(buf, 250));   /* write the data message string length to the Tx FIFO      */
                 for(int k=0; k<msgLen; ++k){                        /* loop for...                                              */

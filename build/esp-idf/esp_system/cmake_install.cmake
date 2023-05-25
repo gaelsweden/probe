@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/WRK-ESP/Probe/build/esp-idf/esp_system/port/cmake_install.cmake")
+  include("C:/Capou/probe/build/esp-idf/esp_system/port/cmake_install.cmake")
 
 endif()
 

@@ -5,15 +5,15 @@ cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
   "C:/Users/Mod_loc/esp/esp-idf/components/bootloader/subproject"
-  "C:/WRK-ESP/Probe/build/bootloader"
-  "C:/WRK-ESP/Probe/build/bootloader-prefix"
-  "C:/WRK-ESP/Probe/build/bootloader-prefix/tmp"
-  "C:/WRK-ESP/Probe/build/bootloader-prefix/src/bootloader-stamp"
-  "C:/WRK-ESP/Probe/build/bootloader-prefix/src"
-  "C:/WRK-ESP/Probe/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Capou/probe/build/bootloader"
+  "C:/Capou/probe/build/bootloader-prefix"
+  "C:/Capou/probe/build/bootloader-prefix/tmp"
+  "C:/Capou/probe/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Capou/probe/build/bootloader-prefix/src"
+  "C:/Capou/probe/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "C:/WRK-ESP/Probe/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Capou/probe/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()

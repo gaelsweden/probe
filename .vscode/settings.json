@@ -20,5 +20,6 @@
         "string": "cpp",
         "string_view": "cpp",
         "*.ipp": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 }

@@ -1,4 +1,4 @@
-# Install script for directory: C:/WRK-ESP/Probe/main
+# Install script for directory: C:/Capou/probe/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

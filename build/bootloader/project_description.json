@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "C:/Users/Mod_loc/esp/esp-idf/components/bootloader/subproject",
-    "build_dir":          "C:/WRK-ESP/Probe/build/bootloader",
-    "config_file":        "C:/WRK-ESP/Probe/sdkconfig",
+    "build_dir":          "C:/Capou/probe/build/bootloader",
+    "config_file":        "C:/Capou/probe/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",
