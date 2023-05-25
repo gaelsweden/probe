@@ -38,7 +38,6 @@ enum e_statusMask{
     ST_LORA_MODULE_IS_IN_TX_MODE        = 0x00000001,
     ST_LORA_MODULE_TX_DONE_TRIGGERED    = 0x00000002, 
     ST_LORA_MODULE_RX_DONE_TRIGGERED    = 0x00000004,
-    ST_LORA_ADDRESS_SAVED               = 0x00000008,
 };
 
 static struct s_app{
@@ -106,6 +105,7 @@ void _AppLoRaTask(void*pV){
     unsigned long lCurrentTime;
     int k=0;
     int m=0;
+    int address;
 
     ESP_LOGI(TAG, "----------- ENTERING _AppLoRaTask() ------------");
 
@@ -122,10 +122,10 @@ void _AppLoRaTask(void*pV){
 
                 msg = APP_SENDING_MESSAGE_STR;
                 /* requesting address once **************************************************************************************/
-                if(k==0){
+                if(m==0){
                                     msg = "15";              /* testing                                                         */
-                                    k++;
                 }
+
                 sprintf(buf, "%s", msg);                    /* building the message string to send over LoRa radio              */
         //      sprintf(buf, "%s[%012d]", msg, cpt++);      /* building the message string to send over LoRa radio              */
                 LoRaWriteByte(APP_LORA_REMOTE_ADDRESS);     /* write the module destination address to LoRa Tx FIFO             */
@@ -170,16 +170,12 @@ void _AppLoRaTask(void*pV){
                     for(k=0; k<APP_LORA_REQUEST_ADDRESS; k++){          
                         if(atoi(data) == k){                            /* if data is a number                                  */
                             printf("Address saved: %s\n", data);
+                            address = (atoi(data));                     /* saving address in a variable                         */
                             m++;
                         }
                     }
                 }
-
-
-
-
-
-
+                /****************************************************************************************************************/
 
             }   /*                                                                                                              */
             mBitsClr(app.m_uStatus, ST_LORA_MODULE_RX_DONE_TRIGGERED);  /* acknowledging the Rx done event                      */
