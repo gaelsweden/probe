@@ -37,7 +37,8 @@ enum e_statusMask{
     ST_ALL_SET                          = 0xffffffff,
     ST_LORA_MODULE_IS_IN_TX_MODE        = 0x00000001,
     ST_LORA_MODULE_TX_DONE_TRIGGERED    = 0x00000002, 
-    ST_LORA_MODULE_RX_DONE_TRIGGERED    = 0x00000004, 
+    ST_LORA_MODULE_RX_DONE_TRIGGERED    = 0x00000004,
+    ST_LORA_ADDRESS_SAVED               = 0x00000008,
 };
 
 static struct s_app{
@@ -96,12 +97,15 @@ void _AppLoRaSetRxMode(void){
  */
 void _AppLoRaTask(void*pV){
     (void)pV;
-    static const char*msg = APP_SENDING_MESSAGE_STR;
+    //static const char*msg = APP_SENDING_MESSAGE_STR;
+    static const char*msg;
     static char buf[128];
     uint8_t msgLen;
     unsigned long lBaseTime = 0;
     unsigned long lElapsedTime;
     unsigned long lCurrentTime;
+    int k=0;
+    int m=0;
 
     ESP_LOGI(TAG, "----------- ENTERING _AppLoRaTask() ------------");
 
@@ -116,13 +120,18 @@ void _AppLoRaTask(void*pV){
             if(LoRaBeginPacket(FALSE)==0){              /* if LoRa module is enabled to process a new Tx packect...             */
                 _AppLoRaSetTxMode();                    /* signaling the App Tx status and setting LoRa module for Tx action    */
 
-                msg = "15";                                 /* testing */
+                msg = APP_SENDING_MESSAGE_STR;
+                /* requesting address once **************************************************************************************/
+                if(k==0){
+                                    msg = "15";              /* testing                                                         */
+                                    k++;
+                }
                 sprintf(buf, "%s", msg);                    /* building the message string to send over LoRa radio              */
         //      sprintf(buf, "%s[%012d]", msg, cpt++);      /* building the message string to send over LoRa radio              */
                 LoRaWriteByte(APP_LORA_REMOTE_ADDRESS);     /* write the module destination address to LoRa Tx FIFO             */
                 LoRaWriteByte(APP_LORA_HOST_ADDRESS);       /* write the module source address to LoRa Tx FIFO                  */
                 LoRaWriteByte(msgLen=(uint8_t)strnlen(buf, 250));   /* write the data message string length to the Tx FIFO      */
-                for(int k=0; k<msgLen; ++k){                        /* loop for...                                              */
+                for(k=0; k<msgLen; ++k){                        /* loop for...                                              */
                     LoRaWriteByte(buf[k]);                          /* ...writing the data message string bytes to the Tx FIFO  */
                 }                                                   /*                                                          */
                 LoRaWriteByte('\0');        /* write the null string terminator to the LoRa Tx FIFO                             */
@@ -155,6 +164,23 @@ void _AppLoRaTask(void*pV){
                 }   /*                                                                                                          */
                 data[u8SzData]='\0';                        /* placing the null character string terminator                     */
                 ESP_LOGI(TAG, "dstAddr: 0x%02X srcAddr: 0x%02X Raw message content: \"%s\"", u8DstAddr, u8SrcAddr, data);   /*  */
+                
+                /* printing address if address has been saved by base ***********************************************************/
+                if(m==0){                                               /* to enter the condition once                          */
+                    for(k=0; k<APP_LORA_REQUEST_ADDRESS; k++){          
+                        if(atoi(data) == k){                            /* if data is a number                                  */
+                            printf("Address saved: %s\n", data);
+                            m++;
+                        }
+                    }
+                }
+
+
+
+
+
+
+
             }   /*                                                                                                              */
             mBitsClr(app.m_uStatus, ST_LORA_MODULE_RX_DONE_TRIGGERED);  /* acknowledging the Rx done event                      */
         }/*                                                                                                                     */
