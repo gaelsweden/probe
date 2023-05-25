@@ -105,6 +105,9 @@ void _AppLoRaTask(void*pV){
     unsigned long lCurrentTime;
     int k=0;
     int m=0;
+    char add1[3] = "0x";
+    char add2[3];
+    char add[6];
     int address;
 
     ESP_LOGI(TAG, "----------- ENTERING _AppLoRaTask() ------------");
@@ -169,8 +172,9 @@ void _AppLoRaTask(void*pV){
                 if(m==0){                                               /* to enter the condition once                          */
                     for(k=0; k<APP_LORA_REQUEST_ADDRESS; k++){          
                         if(atoi(data) == k){                            /* if data is a number                                  */
-                            printf("Address saved: %s\n", data);
-                            address = (atoi(data));                     /* saving address in a variable                         */
+                            strcpy(add, add1);                          /* adding '0x' in a variable                            */
+                            strcat(add, data);                          /* compiling '0x' and 'data' to save address            */
+                            printf("Address saved: %s\n", add);
                             m++;
                         }
                     }
